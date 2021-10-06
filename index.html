@@ -1,16 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Date Night in a Box</title>
+    <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+
 </head>
+
 <body>
-    <header class="has-background-primary">
-        <h1 class="has-text-light has-text-center">Date Night in a Box</h1>
+
+    <header></header>
+        <h1><Strong>Date Night in a box</Strong></h1>
     </header>
+    <div class="searchArea box">
+        <form class="column is-one-fifth">
+            <div>
+                <label class="lable">Location</label>
+                <input class="input is-rounded input is-primary" type="text" placeholder="zip">
+            </div>
+            <div>
+                <label class="lable">Distance between events</label>
+                <input class="input is-rounded input is-primary" type="text" placeholder="5">
+            </div>
+            <button class="button is-link button is-rounded m-2" type="submit">Search</button>
+        </form>
+    </div>
+    <Section class="container columns">
+        <div class="card m-5">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <button> < </button>
+                <button> > </button>
+                        <div class="content">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Phasellus nec iaculis mauris.
+                            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                        </div>
+            </div>
+        </div>
+        <div class="card m-5">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <button> < </button>
+                <button> > </button>
+                        <div class="content">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Phasellus nec iaculis mauris.
+                            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                        </div>
+
+            </div>
+        </div>
+
+    </Section>
 </body>
-<script src="./assets/main.js"></script>
+<script src="./assets/js/main.js"></script>
+
 </html>
