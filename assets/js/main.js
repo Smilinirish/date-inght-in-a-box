@@ -1,3 +1,4 @@
+
 let queryURL = "https://corsanywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search";
 const apiKey = 'wLsYlFFOEJdGUiTRil4CptoWnvddp4BlhEke6YiwNnrTMfgW4wb5pLR89f5PhynrvqSAEsRjHlaiPB8y5H4ChUcx08gx9UenAnD4ThPGe5NMpR6ARQ2Hutvlt0NeYXYx'
 
@@ -22,10 +23,10 @@ var data = {
     // location: locationSelection
     // categories: selectedCategories1, 
     // limit: 20
+
     location: "Orlando",
     categories: "movietheaters"
 }
-
 
 $.ajax({
     url: queryURL,
@@ -39,6 +40,7 @@ $.ajax({
     data
 }).then(function (res) {
     console.log(res);
+
     // jQuery.each(res.businesses, function(index, value){
     //     createCard(value); 
     // });
@@ -88,6 +90,4 @@ function createCard(value) {
     //Create bottom number div with 'right' class and 'left' class
 
 //append card tiv to table div
-
-
 
