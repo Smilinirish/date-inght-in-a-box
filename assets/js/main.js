@@ -43,6 +43,7 @@ $.ajax({
     },
     data
 }).then(function (res) {
+
      function count1add() {
         if (count1 >= res.businesses.length) {
         }
@@ -87,3 +88,17 @@ $.ajax({
 
 
 
+//$("iframe")
+var originInput=$("#origin")
+originInput.text="text"
+console.log(originInput)
+//$(".destination")
+//"https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin=Oslo+Norway&destination=Telemark+Norway&avoid=tolls|highways"
+var iframe=$("#map")
+console.log(iframe)
+
+var origin= 32708
+var destination= 14625
+var url= "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin="+origin+"&destination="+destination
+
+iframe.attr("src", url);
