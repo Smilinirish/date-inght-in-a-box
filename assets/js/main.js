@@ -177,28 +177,6 @@ function setData2() {
         }
     }, 100);
 }
-$(document).on('click', '#submitBtn', setSearch);
-$(document).on('click', '#card1LBtn', count1subtract);
-$(document).on('click', '#card1RBtn', count1add);
-$(document).on('click', '#card2LBth', count2subtract);
-$(document).on('click', '#card2RBtn', count2add);
-
-// card1RBth.addEventListener('click', card1Right)
-
-//$("iframe")
-// var originInput = $("#origin")
-// originInput.text = "text"
-// console.log(originInput)
-// $(".destination")
-// "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin=Oslo+Norway&destination=Telemark+Norway&avoid=tolls|highways"
-// var iframe = $("#map")
-// console.log(iframe)
-
-// var origin = 32708
-// var destination = 14625
-// var url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin=" + origin + "&destination=" + destination
-
-// iframe.attr("src", url)
 function addMap(){
     if(document.querySelector('.check3')===null){
         $('.display').append('<iframe class="map check3" width="650" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin='+apiData.businesses[count1].location.display_address[0] + " " + apiData.businesses[count1].location.display_address[1] + '&destination=' + apiData2.businesses[count2].location.display_address[0] + " " + apiData2.businesses[count2].location.display_address[1] + '" allowfullscreen></iframe>')
@@ -207,3 +185,9 @@ function addMap(){
         $('.map').replaceWith('<iframe class="map check3" width="650" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin='+apiData.businesses[count1].location.display_address[0] + " " + apiData.businesses[count1].location.display_address[1] + '&destination=' + apiData2.businesses[count2].location.display_address[0] + " " + apiData2.businesses[count2].location.display_address[1] + '" allowfullscreen></iframe>')
     }
 }
+$(document).on('click', '#submitBtn', setSearch);
+$(document).on('click', '#card1LBtn', count1subtract);
+$(document).on('click', '#card1RBtn', count1add);
+$(document).on('click', '#card2LBth', count2subtract);
+$(document).on('click', '#card2RBtn', count2add);
+
