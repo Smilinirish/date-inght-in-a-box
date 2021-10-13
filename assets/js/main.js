@@ -1,7 +1,7 @@
 // selection for first card 
-var selectedCatagory1;
+var selectedCatagory1 = $('#catagoryList1 :selected').val()
 // selection for second card 
-var selectedCatagory2;
+var selectedCatagory2 = "food"
 // zip search area 
 var locationSelection;
 // travel distacnce between locations 
@@ -13,13 +13,28 @@ var card2RBth = document.getElementById('card2RBtn');
 var searchBtn = document.getElementById('submitBtn');
 var count1 = 0;
 var count2 = 0;
+var apiData;
 
-
+console.log(apiData)
 function count2add() {
     count2++;
 }
 function count2subtract() {
     count2--;
+}
+function setSearch(){
+  data = {
+    location: $('#location').val(),
+    categories: $('#catagoryList1 :selected').val(),
+    limit: 25
+  }
+}
+
+function Search(){
+    event.preventDefault();
+    setSearch();
+    runApi1();
+
 }
 
 let queryURL = "https://corsanywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search";
@@ -28,10 +43,12 @@ var data = {
     // location: locationSelection,
     // categories: selectedCatagory1,
     // limit: 25
-    location: "Orlando",
-    categories: "movietheaters"
+    location:  30018,
+    categories:  "movietheaters",
+    limit: 25
 }
 // first call 
+// function runApi1(data){
 $.ajax({
     url: queryURL,
     method: "GET",
@@ -42,8 +59,9 @@ $.ajax({
         "Authorization": `Bearer ${apiKey}`
     },
     data
-}).then(function (res) {
 
+}).then(function (res) {
+    apiData = res
      function count1add() {
         if (count1 >= res.businesses.length) {
         }
@@ -79,26 +97,53 @@ $.ajax({
         card1display();
         count1add();
     }
+  
+
+searchBtn.addEventListener('submit',Search)
     card1LBtn.addEventListener("click",card1left);
-    card1RBtn.addEventListener('click',card1Right)
+    card1RBth.addEventListener('click',card1Right)
     // card1RBtn.addEventListener("click", );
 });
 
+// }
 
 
 
 
-//$("iframe")
-var originInput=$("#origin")
-originInput.text="text"
-console.log(originInput)
-//$(".destination")
-//"https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin=Oslo+Norway&destination=Telemark+Norway&avoid=tolls|highways"
-var iframe=$("#map")
-console.log(iframe)
+// //$("iframe")
+// var originInput=$("#origin")
+// originInput.text="text"
+// console.log(originInput)
+// //$(".destination")
+// //"https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin=Oslo+Norway&destination=Telemark+Norway&avoid=tolls|highways"
+// var iframe=$("#map")
+// console.log(iframe)
 
-var origin= 32708
-var destination= 14625
-var url= "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin="+origin+"&destination="+destination
+// var origin= 32708
+// var destination= 14625
+// var url= "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin="+origin+"&destination="+destination
 
-iframe.attr("src", url);
+// iframe.attr("src", url);
+var thing = (function(){
+
+var data = {
+    location:  30018,
+    categories:  "movietheaters",
+    limit: 25
+}
+
+var response = $.ajax({
+    url: queryURL,
+    method: "GET",
+    headers: {
+        "accept": "application/json",
+        "x-requested-with": "xmlhttprequest",
+        "Access-Control-Allow-Origin": "*",
+        "Authorization": `Bearer ${apiKey}`
+    },
+    data
+
+});
+return response
+})
+

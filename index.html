@@ -21,13 +21,13 @@
     <form class="columns is-one-fifth">
       <!-- this is the starting location that the user will enter as the primary search area  -->
       <div class="m-2">
-        <input class="input is-rounded input is-primary" type="text" placeholder="zip">
+        <input class="input is-rounded input is-primary" id="location" type="text" placeholder="zip">
       </div>
       <!-- this is the first destination catagory, instead of locking them into a single type we decided to let them chose the catagory themselves -->
       <div class="select firstCatagory m-2">
         <select name="catagories" id="catagoryList1" class="is-rounded input is-primary">
           <option value="galleries">galleries</option>
-          <option value="1">Movie Theater</option>
+          <option value="movietheaters">Movie Theater</option>
           <option value="hello">hello</option>
         </select>
       </div>
@@ -53,7 +53,7 @@
       </div>
       <!-- this is the second catagory selection -->
       <div class="select firstCatagory m-2">
-        <select name="catagories" id="catagoryList1" class="is-rounded input is-primary">
+        <select name="catagories" id="catagoryList2" class="is-rounded input is-primary">
           <option value="galleries">galleries</option>
           <option value="1">Movie Theater</option>
           <option value="hello">hello</option>
@@ -102,12 +102,12 @@
             </div>
       </div>
     </div>
-    <iframe
+    <!-- <iframe
     width="650"
     height="450"
     frameborder="0" style="border:0"
     src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin=Dayton+OH&destination=Atlanta+Ga" allowfullscreen>
-  </iframe>
+  </iframe> -->
   </Section>
 
 </body>
