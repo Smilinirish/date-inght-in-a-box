@@ -27,6 +27,7 @@ function firstApiCall() {
         data
     });
     firstApiCallData = response;
+    SetCard1Display();
 }
 function secondApiCall() {
     response = $.ajax({
@@ -58,8 +59,15 @@ function SetCard1Display() {
                 console.log(data2);
             }
             clearInterval(getData);
+            setData2();
+            var timer = setInterval(() => {
+                if (typeof data2 !== 'undefined') {
+                    clearInterval(timer);
+                    secondApiCall();
+                }
+            }, 200);
         }
-    }, 1)
+    }, 200)
 
 }
 function count1add() {
@@ -91,10 +99,31 @@ function count1subtract() {
 
 }
 function count2add() {
-    count2++;
+    var getData = setInterval(() => {
+        if (typeof firstApiCallData.responseJSON !== 'undefined') {
+            if (count1 === apiData.businesses.length) {
+            }
+            else {
+                count1++;
+                SetCard1Display();
+            }
+            clearInterval(getData);
+        }
+    }, 1)
 }
 function count2subtract() {
-    count2--;
+    var getData = setInterval(() => {
+        if (typeof firstApiCallData.responseJSON !== 'undefined') {
+            if (count2 === 0) {
+            }
+            else {
+                count2--;
+                SetCard2Display();
+            }
+            clearInterval(getData);
+        }
+    }, 1)
+
 }
 function setSearch() {
     data = {
@@ -102,25 +131,40 @@ function setSearch() {
         categories: $('#catagoryList1 :selected').val(),
         limit: 25
     }
-
     firstApiCall();
+}
+
+// $.when(firstApiCall).done(function(){
+//     data2 = {
+//         latitude: apiData.businesses[count1].coordinates.latitude,
+//         longitude:apiData.businesses[count1].coordinates.longitude,
+//         radius: $('#distance').val(),
+//         limit:25
+//     }
+//     console.log(data2)
+// });
+
+function setData2() {
     var getData = setInterval(() => {
+
         if (typeof firstApiCallData.responseJSON !== 'undefined') {
             data2 = {
                 latitude: apiData.businesses[count1].coordinates.latitude,
-                longitude:apiData.businesses[count1].coordinates.longitude,
+                longitude: apiData.businesses[count1].coordinates.longitude,
                 radius: $('#distance').val(),
-                limit:25
+                limit: 25
             }
             clearInterval(getData);
             console.log(data2);
+
         }
-    }, 1)
-    SetCard1Display();
+    }, 1);
 }
+
 searchBtn.addEventListener('click', setSearch);
 $(document).on('click', '#card1LBtn', count1subtract);
 $(document).on('click', '#card1RBtn', count1add);
+
 // card1RBth.addEventListener('click', card1Right)
 
 // //$("iframe")
@@ -136,4 +180,24 @@ $(document).on('click', '#card1RBtn', count1add);
 // var destination= 14625
 // var url= "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin="+origin+"&destination="+destination
 
-// iframe.attr("src", url);
+// iframe.attr("src", url)
+// var test = {
+//     latitude: 28.4639588313221,
+//     longitude: -81.3053254036602,
+//     categories: "restaurants",
+//     limit: 50
+//     // location: "Orlando",
+//     // categories: "movietheaters"
+// }
+
+// $.ajax({
+//     url: queryURL,
+//     method: "GET",
+//     headers: {
+//         "accept": "application/json",
+//         "x-requested-with": "xmlhttprequest",
+//         "Access-Control-Allow-Origin": "*",
+//         "Authorization": `Bearer ${apiKey}`
+//     },
+//     test
+// });
