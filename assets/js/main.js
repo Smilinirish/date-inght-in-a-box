@@ -1,114 +1,127 @@
-// selection for first card 
-var selectedCatagory1 = $('#catagoryList1 :selected').val()
-// selection for second card 
-var selectedCatagory2 = "food"
-// zip search area 
-var locationSelection;
-// travel distacnce between locations 
 var distance;
-var card1LBtn = document.getElementById('card1LBtn');
-var card1RBth = document.getElementById('card1RBtn');
 var card2LBtn = document.getElementById('card2LBtn');
 var card2RBth = document.getElementById('card2RBtn');
 var searchBtn = document.getElementById('submitBtn');
 var count1 = 0;
 var count2 = 0;
 var apiData;
+var apiData2;
+var firstApiCallData;
+var secondApiCallData;
+var response;
+let queryURL = "https://corsanywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search";
+const apiKey = 'wLsYlFFOEJdGUiTRil4CptoWnvddp4BlhEke6YiwNnrTMfgW4wb5pLR89f5PhynrvqSAEsRjHlaiPB8y5H4ChUcx08gx9UenAnD4ThPGe5NMpR6ARQ2Hutvlt0NeYXYx'
+var data;
+var data2;
 
-console.log(apiData)
+function firstApiCall() {
+    response = $.ajax({
+        url: queryURL,
+        method: "GET",
+        headers: {
+            "accept": "application/json",
+            "x-requested-with": "xmlhttprequest",
+            "Access-Control-Allow-Origin": "*",
+            "Authorization": `Bearer ${apiKey}`
+        },
+        data
+    });
+    firstApiCallData = response;
+}
+function secondApiCall() {
+    response = $.ajax({
+        url: queryURL,
+        method: "GET",
+        headers: {
+            "accept": "application/json",
+            "x-requested-with": "xmlhttprequest",
+            "Access-Control-Allow-Origin": "*",
+            "Authorization": `Bearer ${apiKey}`
+        },
+        data2
+    });
+    secondApiCallData = response;
+}
+function SetCard1Display() {
+    var getData = setInterval(() => {
+        if (typeof firstApiCallData.responseJSON !== 'undefined') {
+            apiData = firstApiCallData.responseJSON;
+            if (document.querySelector('.check') === null) {
+                $('.display').append('<div class="card m-5 check"><div class="card-image startPoint"><figure class="image is-4by3"><img class="card1Image" src=' + apiData.businesses[count1].image_url + ' alt="Placeholder image"></figure></div><div class="card-content"><button id="card1LBtn"> < </button><button id="card1RBtn"> > </button><div class="content"><h1 class="firstCardName">' + apiData.businesses[count1].name + '</h1><h3 class="firstCardAddress">' + apiData.businesses[count1].location.display_address[0] + " " + apiData.businesses[count1].location.display_address[1] + '</h3><p class="firstCardRating"><strong>Rating: </strong>' + apiData.businesses[count1].rating + '/5<p class="firstCardPhone"><strong>Phone Number: </strong>' + apiData.businesses[count1].phone + '</p></div></div></div>')
+            }
+            else {
+                document.querySelector('.card1Image').src = apiData.businesses[count1].image_url;
+                $('.firstCardName').replaceWith('<h1 class="firstCardName">' + apiData.businesses[count1].name + '</h1></h1>');
+                $('.firstCardAddress').replaceWith('<h3 class="firstCardAddress">' + apiData.businesses[count1].location.display_address[0] + " " + apiData.businesses[count1].location.display_address[1] + '</h3>');
+                $('.firstCardRating').replaceWith('<p class="firstCardRating"> <strong>Rating </strong>' + apiData.businesses[count1].rating + '/5</p>');
+                $('.firstCardPhone').replaceWith('<p class="firstCardPhone"><strong>Phone Number: </strong>' + apiData.businesses[count1].phone + '</p>');
+                console.log(data2);
+            }
+            clearInterval(getData);
+        }
+    }, 1)
+
+}
+function count1add() {
+    var getData = setInterval(() => {
+        if (typeof firstApiCallData.responseJSON !== 'undefined') {
+            if (count1 === apiData.businesses.length) {
+            }
+            else {
+                count1++;
+                SetCard1Display();
+            }
+            clearInterval(getData);
+        }
+    }, 1)
+
+}
+function count1subtract() {
+    var getData = setInterval(() => {
+        if (typeof firstApiCallData.responseJSON !== 'undefined') {
+            if (count1 === 0) {
+            }
+            else {
+                count1--;
+                SetCard1Display();
+            }
+            clearInterval(getData);
+        }
+    }, 1)
+
+}
 function count2add() {
     count2++;
 }
 function count2subtract() {
     count2--;
 }
-function setSearch(){
-  data = {
-    location: $('#location').val(),
-    categories: $('#catagoryList1 :selected').val(),
-    limit: 25
-  }
+function setSearch() {
+    data = {
+        location: $('#location').val(),
+        categories: $('#catagoryList1 :selected').val(),
+        limit: 25
+    }
+
+    firstApiCall();
+    var getData = setInterval(() => {
+        if (typeof firstApiCallData.responseJSON !== 'undefined') {
+            data2 = {
+                latitude: apiData.businesses[count1].coordinates.latitude,
+                longitude:apiData.businesses[count1].coordinates.longitude,
+                radius: $('#distance').val(),
+                limit:25
+            }
+            clearInterval(getData);
+            console.log(data2);
+        }
+    }, 1)
+    SetCard1Display();
 }
-
-function Search(){
-    event.preventDefault();
-    setSearch();
-    runApi1();
-
-}
-
-let queryURL = "https://corsanywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search";
-const apiKey = 'wLsYlFFOEJdGUiTRil4CptoWnvddp4BlhEke6YiwNnrTMfgW4wb5pLR89f5PhynrvqSAEsRjHlaiPB8y5H4ChUcx08gx9UenAnD4ThPGe5NMpR6ARQ2Hutvlt0NeYXYx'
-var data = {
-    // location: locationSelection,
-    // categories: selectedCatagory1,
-    // limit: 25
-    location:  30018,
-    categories:  "movietheaters",
-    limit: 25
-}
-// first call 
-// function runApi1(data){
-$.ajax({
-    url: queryURL,
-    method: "GET",
-    headers: {
-        "accept": "application/json",
-        "x-requested-with": "xmlhttprequest",
-        "Access-Control-Allow-Origin": "*",
-        "Authorization": `Bearer ${apiKey}`
-    },
-    data
-
-}).then(function (res) {
-    apiData = res
-     function count1add() {
-        if (count1 >= res.businesses.length) {
-        }
-        else {
-            count1++;
-        }
-        console.log(count1)
-    }
-    function count1subtract() {
-        if (count1 <= 0) {
-        }
-        else {
-            count1--;
-        }
-    
-        console.log(count1)
-    }
-    function card1display(){
-        $('.firstCardName').replaceWith('<h1 class="firstCardName">' + res.businesses[count1].name + '</h1></h1>');
-        $('.firstCardAddress').replaceWith('<h3 class="firstCardAddress">' + res.businesses[count1].location.display_address[0] + " " + res.businesses[count1].location.display_address[1] + '</h3>');
-        $('.firstCardRating').replaceWith('<p class="firstCardRating"> <strong>Rating </strong>'+ res.businesses[count1].rating + '/5</p>');
-        $('.firstCardPhone').replaceWith('<p class="firstCardPhone"><strong>Phone Number: </strong>'+res.businesses[count1].phone+'</p>');
-        document.querySelector('.card1Image').src=res.businesses[count1].image_url;
-    }
-
-    function card1left(){
-        
-        card1display();
-        count1subtract();
-        console.log(count1)
-    }
-    function card1Right(){
-        card1display();
-        count1add();
-    }
-  
-
-searchBtn.addEventListener('submit',Search)
-    card1LBtn.addEventListener("click",card1left);
-    card1RBth.addEventListener('click',card1Right)
-    // card1RBtn.addEventListener("click", );
-});
-
-// }
-
-
-
+searchBtn.addEventListener('click', setSearch);
+$(document).on('click', '#card1LBtn', count1subtract);
+$(document).on('click', '#card1RBtn', count1add);
+// card1RBth.addEventListener('click', card1Right)
 
 // //$("iframe")
 // var originInput=$("#origin")
@@ -124,26 +137,3 @@ searchBtn.addEventListener('submit',Search)
 // var url= "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin="+origin+"&destination="+destination
 
 // iframe.attr("src", url);
-var thing = (function(){
-
-var data = {
-    location:  30018,
-    categories:  "movietheaters",
-    limit: 25
-}
-
-var response = $.ajax({
-    url: queryURL,
-    method: "GET",
-    headers: {
-        "accept": "application/json",
-        "x-requested-with": "xmlhttprequest",
-        "Access-Control-Allow-Origin": "*",
-        "Authorization": `Bearer ${apiKey}`
-    },
-    data
-
-});
-return response
-})
-
