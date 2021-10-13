@@ -114,6 +114,7 @@ function SetCard2Display() {
                 $('.SecondCardPhone').replaceWith('<p class="SecondCardPhone check2"><strong>Phone Number: </strong>' + apiData2.businesses[count2].phone + '</p>');
             }
             clearInterval(getData)
+            addMap()
         }
     }, 200);
 
@@ -198,3 +199,11 @@ $(document).on('click', '#card2RBtn', count2add);
 // var url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin=" + origin + "&destination=" + destination
 
 // iframe.attr("src", url)
+function addMap(){
+    if(document.querySelector('.check3')===null){
+        $('.display').append('<iframe class="map check3" width="650" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin='+apiData.businesses[count1].location.display_address[0] + " " + apiData.businesses[count1].location.display_address[1] + '&destination=' + apiData2.businesses[count2].location.display_address[0] + " " + apiData2.businesses[count2].location.display_address[1] + '" allowfullscreen></iframe>')
+    }
+    else{
+        $('.map').replaceWith('<iframe class="map check3" width="650" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin='+apiData.businesses[count1].location.display_address[0] + " " + apiData.businesses[count1].location.display_address[1] + '&destination=' + apiData2.businesses[count2].location.display_address[0] + " " + apiData2.businesses[count2].location.display_address[1] + '" allowfullscreen></iframe>')
+    }
+}
