@@ -45,3 +45,16 @@ function whateverfunch(){
     whateverfuntionforGoogleAPI();
     
 }
+
+
+
+
+
+
+function card1display() {
+    $('.firstCardName').replaceWith('<h1 class="firstCardName">' + res.businesses[count1].name + '</h1></h1>');
+    $('.firstCardAddress').replaceWith('<h3 class="firstCardAddress">' + res.businesses[count1].location.display_address[0] + " " + res.businesses[count1].location.display_address[1] + '</h3>');
+    $('.firstCardRating').replaceWith('<p class="firstCardRating"> <strong>Rating </strong>' + res.businesses[count1].rating + '/5</p>');
+    $('.firstCardPhone').replaceWith('<p class="firstCardPhone"><strong>Phone Number: </strong>' + res.businesses[count1].phone + '</p>');
+    document.querySelector('.card1Image').src = res.businesses[count1].image_url;
+}
