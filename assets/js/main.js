@@ -1,7 +1,4 @@
 var distance;
-var card2LBtn = document.getElementById('card2LBtn');
-var card2RBth = document.getElementById('card2RBtn');
-var searchBtn = document.getElementById('submitBtn');
 var count1 = 0;
 var count2 = 0;
 var apiData;
@@ -11,6 +8,7 @@ var secondApiCallData;
 var response;
 let queryURL = "https://corsanywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search";
 const apiKey = 'wLsYlFFOEJdGUiTRil4CptoWnvddp4BlhEke6YiwNnrTMfgW4wb5pLR89f5PhynrvqSAEsRjHlaiPB8y5H4ChUcx08gx9UenAnD4ThPGe5NMpR6ARQ2Hutvlt0NeYXYx'
+const apiKey2 = 'znqgGvWZjSHuviYlTuSQ0S624sMP0C-YDc1EjqNSW_OQEZLzt5zPnRNHuJ_hsRgLzTZtxZpdDnrY2O1FX9Ta94dYRIeAhlZ9UaLNXDCrPohuFzphGPuM0mG0M7ZhYXYx'
 var data;
 var data2;
 
@@ -24,7 +22,7 @@ function firstApiCall() {
             "Access-Control-Allow-Origin": "*",
             "Authorization": `Bearer ${apiKey}`
         },
-        data
+        data:data
     });
     firstApiCallData = response;
     SetCard1Display();
@@ -37,11 +35,15 @@ function secondApiCall() {
             "accept": "application/json",
             "x-requested-with": "xmlhttprequest",
             "Access-Control-Allow-Origin": "*",
-            "Authorization": `Bearer ${apiKey}`
+            "Authorization": `Bearer ${apiKey}`,
         },
-        data2
+        data:data2
+
+
     });
     secondApiCallData = response;
+    console.log(secondApiCallData);
+    SetCard2Display();
 }
 function SetCard1Display() {
     var getData = setInterval(() => {
@@ -56,7 +58,6 @@ function SetCard1Display() {
                 $('.firstCardAddress').replaceWith('<h3 class="firstCardAddress">' + apiData.businesses[count1].location.display_address[0] + " " + apiData.businesses[count1].location.display_address[1] + '</h3>');
                 $('.firstCardRating').replaceWith('<p class="firstCardRating"> <strong>Rating </strong>' + apiData.businesses[count1].rating + '/5</p>');
                 $('.firstCardPhone').replaceWith('<p class="firstCardPhone"><strong>Phone Number: </strong>' + apiData.businesses[count1].phone + '</p>');
-                console.log(data2);
             }
             clearInterval(getData);
             setData2();
@@ -98,13 +99,33 @@ function count1subtract() {
     }, 1)
 
 }
-function count2add() {
+function SetCard2Display() {
     var getData = setInterval(() => {
-        if (typeof firstApiCallData.responseJSON !== 'undefined') {
-            if (count1 === apiData.businesses.length) {
+        if (typeof secondApiCallData.responseJSON !== 'undefined') {
+            apiData2 = secondApiCallData.responseJSON;
+            if (document.querySelector('.check2') === null) {
+                $('.display').append('<div class="card m-5 check2"><div class="card-image startPoint2"><figure class="image is-4by3"><img class="card2Image" src=' + apiData2.businesses[count2].image_url + ' alt="Placeholder image"></figure></div><div class="card-content"><button id="card2LBtn"> < </button><button id="card2RBtn"> > </button><div class="content"><h1 class="SecondCardName">' + apiData2.businesses[count2].name + '</h1><h3 class="SecondCardAddress">' + apiData2.businesses[count2].location.display_address[0] + " " + apiData2.businesses[count2].location.display_address[1] + '</h3><p class="SecondCardRating"><strong>Rating: </strong>' + apiData2.businesses[count2].rating + '/5<p class="firstCardPhone"><strong>Phone Number: </strong>' + apiData2.businesses[count2].phone + '</p></div></div></div>')
             }
             else {
-                count1++;
+                document.querySelector('.card2Image').src = apiData2.businesses[count2].image_url;
+                $('.SecondCardName').replaceWith('<h1 class="SecondCardName">' + apiData2.businesses[count2].name + '</h1></h1>');
+                $('.SecondCardAddress').replaceWith('<h3 class="SecondCardAddress">' + apiData2.businesses[count2].location.display_address[0] + " " + apiData2.businesses[count2].location.display_address[1] + '</h3>');
+                $('.SecondCardRating').replaceWith('<p class="SecondCardRating"> <strong>Rating </strong>' + apiData2.businesses[count2].rating + '/5</p>');
+                $('.SecondCardPhone').replaceWith('<p class="SecondCardPhone check2"><strong>Phone Number: </strong>' + apiData2.businesses[count2].phone + '</p>');
+            }
+            clearInterval(getData)
+        }
+    }, 200);
+
+}
+
+function count2add() {
+    var getData = setInterval(() => {
+        if (typeof secondApiCallData.responseJSON !== 'undefined') {
+            if (count2 === apiData2.businesses.length) {
+            }
+            else {
+                count2++;
                 SetCard1Display();
             }
             clearInterval(getData);
@@ -113,7 +134,7 @@ function count2add() {
 }
 function count2subtract() {
     var getData = setInterval(() => {
-        if (typeof firstApiCallData.responseJSON !== 'undefined') {
+        if (typeof secondApiCallData.responseJSON !== 'undefined') {
             if (count2 === 0) {
             }
             else {
@@ -126,6 +147,8 @@ function count2subtract() {
 
 }
 function setSearch() {
+    count1 = 0
+    count2 = 0
     data = {
         location: $('#location').val(),
         categories: $('#catagoryList1 :selected').val(),
@@ -134,70 +157,44 @@ function setSearch() {
     firstApiCall();
 }
 
-// $.when(firstApiCall).done(function(){
-//     data2 = {
-//         latitude: apiData.businesses[count1].coordinates.latitude,
-//         longitude:apiData.businesses[count1].coordinates.longitude,
-//         radius: $('#distance').val(),
-//         limit:25
-//     }
-//     console.log(data2)
-// });
-
 function setData2() {
     var getData = setInterval(() => {
 
-        if (typeof firstApiCallData.responseJSON !== 'undefined') {
+        if (typeof apiData !== 'undefined') {
+            clearInterval(getData);
+            console.log(apiData.businesses[count2].location.display_address[0])
             data2 = {
+                // location:apiData.businesses[count2].location.display_address[0]+ " " +apiData.businesses[count2].location.display_address[1],
+                // location:'3210 Madison Rd Cincinnati, OH 45209',
                 latitude: apiData.businesses[count1].coordinates.latitude,
                 longitude: apiData.businesses[count1].coordinates.longitude,
-                radius: $('#distance').val(),
-                limit: 25
+                categories:$('#catagoryList2 :selected').val(),
+                limit: 25,
             }
-            clearInterval(getData);
             console.log(data2);
 
         }
-    }, 1);
+    }, 100);
 }
-
-searchBtn.addEventListener('click', setSearch);
+$(document).on('click', '#submitBtn', setSearch);
 $(document).on('click', '#card1LBtn', count1subtract);
 $(document).on('click', '#card1RBtn', count1add);
+$(document).on('click', '#card2LBth', count2subtract);
+$(document).on('click', '#card2RBtn', count2add);
 
 // card1RBth.addEventListener('click', card1Right)
 
-// //$("iframe")
-// var originInput=$("#origin")
-// originInput.text="text"
+//$("iframe")
+// var originInput = $("#origin")
+// originInput.text = "text"
 // console.log(originInput)
-// //$(".destination")
-// //"https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin=Oslo+Norway&destination=Telemark+Norway&avoid=tolls|highways"
-// var iframe=$("#map")
+// $(".destination")
+// "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin=Oslo+Norway&destination=Telemark+Norway&avoid=tolls|highways"
+// var iframe = $("#map")
 // console.log(iframe)
 
-// var origin= 32708
-// var destination= 14625
-// var url= "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin="+origin+"&destination="+destination
+// var origin = 32708
+// var destination = 14625
+// var url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyBhzc6b3tPUkEyQ9TkqRl2gCCcw5WGCQyo&origin=" + origin + "&destination=" + destination
 
 // iframe.attr("src", url)
-// var test = {
-//     latitude: 28.4639588313221,
-//     longitude: -81.3053254036602,
-//     categories: "restaurants",
-//     limit: 50
-//     // location: "Orlando",
-//     // categories: "movietheaters"
-// }
-
-// $.ajax({
-//     url: queryURL,
-//     method: "GET",
-//     headers: {
-//         "accept": "application/json",
-//         "x-requested-with": "xmlhttprequest",
-//         "Access-Control-Allow-Origin": "*",
-//         "Authorization": `Bearer ${apiKey}`
-//     },
-//     test
-// });
